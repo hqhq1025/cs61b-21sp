@@ -49,7 +49,7 @@ public class IntListExercises {
     /** Returns true if the last digit of x is equal to
      *  the first digit of x.
      */
-    public static boolean firstDigitEqualsLastDigit(int x) {
+    private static boolean firstDigitEqualsLastDigit(int x) {
         int lastDigit = x % 10;
         while (x >= 10) {
             x = x / 10;
@@ -65,7 +65,11 @@ public class IntListExercises {
      * @param lst IntList from Lecture
      * @return True if there was an update to the list
      */
-    public static boolean squarePrimes(IntList lst, boolean flag) {
+    public static boolean squarePrimes(IntList lst, boolean flag)
+    {
+        return squarePrimeshelper(lst,false);
+    }
+    private static boolean squarePrimeshelper(IntList lst, boolean flag) {
         // Base Case: we have reached the end of the list
         if (lst == null) {
             return flag;
@@ -78,6 +82,6 @@ public class IntListExercises {
             flag = true;
         }
 
-        return squarePrimes(lst.rest,flag);
+        return squarePrimes(lst.rest, flag);
     }
 }
