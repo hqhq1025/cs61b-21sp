@@ -65,7 +65,7 @@ public class IntListExercises {
      * @param lst IntList from Lecture
      * @return True if there was an update to the list
      */
-    public static boolean squarePrimes(IntList lst, boolean flag)
+    public static boolean squarePrimes(IntList lst)
     {
         return squarePrimeshelper(lst,false);
     }
@@ -82,6 +82,6 @@ public class IntListExercises {
             flag = true;
         }
 
-        return squarePrimes(lst.rest, flag);
+        return squarePrimeshelper(lst.rest, flag);
     }
 }
