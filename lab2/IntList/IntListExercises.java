@@ -49,7 +49,7 @@ public class IntListExercises {
     /** Returns true if the last digit of x is equal to
      *  the first digit of x.
      */
-    private static boolean firstDigitEqualsLastDigit(int x) {
+    public static boolean firstDigitEqualsLastDigit(int x) {
         int lastDigit = x % 10;
         while (x >= 10) {
             x = x / 10;
