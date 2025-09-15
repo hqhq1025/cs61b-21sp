@@ -5,7 +5,7 @@ import java.util.Observable;
 
 
 /** The state of a game of 2048.
- *  @author TODO: YOUR NAME HERE
+ *  @author Haoqing Wang
  */
 public class Model extends Observable {
     /** Current contents of the board. */
@@ -138,7 +138,16 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean empty = false;
+        int size = b.size();
+        for(int i = 0; i< size; i++){
+            for (int j = 0; j< size; j++){
+                if(b.tile(i,j) == null){
+                    empty = true;
+                }
+            }
+        }
+        return empty;
     }
 
     /**
@@ -147,8 +156,17 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        // TODO: Fill in this function
+        boolean maxtile = false;
+        int size = b.size();
+        for(int i = 0; i< size; i++){
+            for (int j = 0; j< size; j++){
+                if(b.tile(i,j).value() == MAX_PIECE){
+                    maxtile = true;
+                }
+            }
+        }
+        return maxtile;
     }
 
     /**
@@ -159,7 +177,28 @@ public class Model extends Observable {
      */
     public static boolean atLeastOneMoveExists(Board b) {
         // TODO: Fill in this function.
-        return false;
+        boolean emptySpaceExists = emptySpaceExists(b);
+
+        if(emptySpaceExists){
+            return emptySpaceExists;  // 这里先判断是否有 null 的空位置, 防止后面在访问 null 的 value 时报错
+        }
+
+        boolean sameTileExists = false;
+        int size = b.size();
+        for(int i = 0; i< size; i++) {
+            for (int j = 0; j < size; j++) {
+                int now = b.tile(i, j).value();
+                int left = b.tile(i, (j + 3) % size).value(); //这里的+3的同余性和-1相同, 避免使用相减出现负数
+                int right = b.tile(i, (j + 1) % size).value();
+                int up = b.tile((i + 3) % 4, j).value();
+                int down = b.tile((i + 1) % 4, j).value();
+                boolean flag = (now == left) || (now == right) || (now == up) || (now == down);
+                if (flag) {
+                    sameTileExists = true;
+                }
+            }
+        }
+        return sameTileExists;
     }
 
 
