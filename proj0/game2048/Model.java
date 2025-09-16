@@ -113,6 +113,45 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
+        Board b = this.board;
+        b.setViewingPerspective(side);  // 设置视角
+        int size = b.size();
+        int target_value = 0;
+        int target_row;
+        Tile current_tile;
+        int current_value;
+
+
+        for(int col =0; col <size; col++){
+            target_row = size - 1;  // 初始化目标的行数
+            boolean [] merged_row = new boolean[size];
+            for(int row = size - 1; row>=0; row--){
+                current_tile = b.tile(col,row);  //获取当前的 tile
+                if(current_tile != null){
+                    current_value = current_tile.value();   // 获取当前的值
+                    if(current_value == target_value){  //比较值是否相等, 用于判断能否合并;
+                        b.move(col, target_row, current_tile);   // 可以合并, 则移动
+                        changed = true;
+                        this.score += target_value*2;
+                        merged_row[row] = true;
+                    }
+                    else if (target_value == -1) {
+                        b.move(col, target_row, current_tile);   // 可以合并, 则移动
+                        changed = true;
+                    }
+                    else{  // 如果不能合并, 则当前的块为合并的目标块, 更新数值
+                        target_row = row;
+                        target_value = current_value;
+                    }
+                }
+                else{
+                        target_row = row;
+                        target_value = -1;   //对 null 进行特殊处理
+                }
+            }
+        }
+
+        b.setViewingPerspective(Side.NORTH);
 
         checkGameOver();
         if (changed) {
@@ -161,8 +200,10 @@ public class Model extends Observable {
         int size = b.size();
         for(int i = 0; i< size; i++){
             for (int j = 0; j< size; j++){
-                if(b.tile(i,j).value() == MAX_PIECE){
-                    maxtile = true;
+                if(b.tile(i,j) != null){
+                    if(b.tile(i,j).value() == MAX_PIECE) {
+                        maxtile = true;
+                    }
                 }
             }
         }
