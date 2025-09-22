@@ -23,12 +23,12 @@ public class Primes {
         if (n <= 1 || n == 4) return false;
         if (n <= 3) return true;
 
-        int k = 3; // Try k = 3 times
-        while (k > 0)
+        int k = n - 4; // Try k = 3 times
+        while (k >= 0)
         {
             // Pick a random number in [2..n-2]
             // Above corner cases make sure that n > 4
-            int a = 2 + (int)(Math.random() % (n - 4));
+            int a = 2 + k;
 
             // Fermat's little theorem
             if (power(a, n - 1, n) != 1)
